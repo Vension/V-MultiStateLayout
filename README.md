@@ -23,7 +23,7 @@
 
 ## Preview
 <p>
-    <img src="https://github.com/Vension/V-MultiStateLayout/blob/master/ScreenShot/GIF.gif" width="30%" height="30%">
+    <img src="ScreenShot/GIF.gif" width="30%" height="30%">
 </p>
 
 

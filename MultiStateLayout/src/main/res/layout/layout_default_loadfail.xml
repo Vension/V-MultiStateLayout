@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_page_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/img_default_loadfail"/>
+
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_page_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/page_error_load"
+            android:textSize="14sp"
+            android:textColor="@color/colorPageTip"
+            android:layout_gravity="center"/>
+
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_page_error_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/page_error_retry"
+            android:textSize="14sp"
+            android:textColor="@color/colorPageRetry"
+            android:background="@drawable/shape_default_retry"
+            android:layout_gravity="center"/>
+
+</LinearLayout>

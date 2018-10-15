@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPageTip">#cdcdcd</color>
+    <color name="colorPageLoading">#009844</color>
+    <color name="colorPageRetry">#009844</color>
+
+</resources>

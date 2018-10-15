@@ -28,8 +28,7 @@
 
 
 
-## Download
-# V-MultiStateLayout [ ![Download](https://api.bintray.com/packages/vension/vensionCenter/MultiStateLayout/images/download.svg) ](https://bintray.com/vension/vensionCenter/MultiStateLayout/_latestVersion)
+## Download [ ![Download](https://api.bintray.com/packages/vension/vensionCenter/MultiStateLayout/images/download.svg) ](https://bintray.com/vension/vensionCenter/MultiStateLayout/_latestVersion)
 ``` gradle
  implementation 'me.vension:MultiStateLayout:_latestVersion'
 ```

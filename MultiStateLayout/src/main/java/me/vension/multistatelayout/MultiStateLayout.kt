@@ -18,7 +18,8 @@ import android.widget.FrameLayout
  * 作  者：Vension
  * 日  期：2018/10/12 14:19
  * 描  述：多状态Layout --使用Builder建造者模式链式调用
- * 参考自@Link{https://github.com/Hankkin/PageLayoutDemo}
+ * 致敬开源.参考自@Link{https://github.com/Hankkin/PageLayoutDemo}
+ *
  * ========================================================
  */
 
@@ -116,6 +117,32 @@ class MultiStateLayout : FrameLayout {
         showLayout(State.TYPE_CUSTOM)
     }
 
+    /**
+     * 获取对应状态下的Layout
+     * @param mStateType
+     * @return View
+     */
+    fun getLayout(mStateType: State) : View?{
+        if (mStateType == State.TYPE_LOADING){
+            return mLoadingLayout
+        }
+        if (mStateType == State.TYPE_EMPTY){
+            return mEmptyLayout
+        }
+        if (mStateType == State.TYPE_ERROR_NET){
+            return mNoNetLayout
+        }
+        if (mStateType == State.TYPE_ERROR_LOAD){
+            return mErrorLayout
+        }
+        if (mStateType == State.TYPE_CONTENT){
+            return mContentLayout
+        }
+        if (mStateType == State.TYPE_CUSTOM){
+            return mCustomLayout
+        }
+        return null
+    }
 
     /**重试点击监听器*/
     interface OnRetryClickListener {
@@ -156,15 +183,18 @@ class MultiStateLayout : FrameLayout {
         fun initPage(targetView: Any): Builder {
             var content: ViewGroup? = null
             when (targetView) {
-                is Activity -> {    //如果是Activity，获取到android.R.content
+                //如果是Activity，获取到android.R.content
+                is Activity -> {
                     mContext = targetView
                     content = (mContext as Activity).findViewById(android.R.id.content)
                 }
-                is Fragment -> {    //如果是Fragment获取到parent
+                //如果是Fragment获取到parent
+                is Fragment -> {
                     mContext = targetView.activity!!
                     content = (targetView.view)?.parent as ViewGroup
                 }
-                is View -> {        //如果是View，也取到parent
+                //如果是View，也取到parent
+                is View -> {
                     mContext = targetView.context
                     try {
                         content = (targetView.parent) as ViewGroup
@@ -177,7 +207,8 @@ class MultiStateLayout : FrameLayout {
             val childCount = content?.childCount
             var index = 0
             val oldContent: View
-            if (targetView is View) {   //如果是某个线性布局或者相对布局时，遍历它的孩子，找到对应的索引，记录下来
+            if (targetView is View) {
+                //如果是某个线性布局或者相对布局时，遍历它的孩子，找到对应的索引，记录下来
                 oldContent = targetView
                 childCount?.let {
                     for (i in 0 until childCount) {
@@ -188,12 +219,16 @@ class MultiStateLayout : FrameLayout {
                     }
                 }
 
-            } else {    //如果是Activity或者Fragment时，取到索引为第一个的View
+            } else {
+                //如果是Activity或者Fragment时，取到索引为第一个的View
                 oldContent = content!!.getChildAt(0)
             }
-            mMultiStateLayout.mContentLayout = oldContent   //给MultiStateLayout设置contentView
-            mMultiStateLayout.removeAllViews()   //移除所有子view
-            content?.removeView(oldContent)     //将本身content移除，并且把MultiStateLayout添加到DecorView中去
+            //给MultiStateLayout设置contentView
+            mMultiStateLayout.mContentLayout = oldContent
+            //移除所有子view
+            mMultiStateLayout.removeAllViews()
+            //将本身content移除，并且把MultiStateLayout添加到DecorView中去
+            content?.removeView(oldContent)
             val lp = oldContent.layoutParams
             content?.addView(mMultiStateLayout, index, lp)
             mMultiStateLayout.addView(oldContent)

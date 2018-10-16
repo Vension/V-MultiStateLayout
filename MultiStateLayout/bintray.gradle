@@ -19,7 +19,7 @@ def libDesc = ":point_right:A MultiStateLayout for Android PageStatus --Using Bu
 //compile 'me.vension.xxx:xxx:1.0.0'
 group = "me.vension"// 唯一包名,比如implementation 'me.vension.xxx:1.0.0'中的me.vension就是这里配置的。
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0.0"//项目引用的版本号，比如implementation 'me.vension.xxx:1.0.0'中的1.0.0就是这里配置的。
+version = "1.0.1"//项目引用的版本号，比如implementation 'me.vension.xxx:1.0.0'中的1.0.0就是这里配置的。
 //上面配置后上传至JCenter后的编译路径是这样的： implementation 'me.vension.xxx:1.0.0'
 
 

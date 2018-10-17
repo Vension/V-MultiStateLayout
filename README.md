@@ -1,6 +1,6 @@
 <p align="center">
    <a href="https://bintray.com/vension/vensionCenter/MultiStateLayout/_latestVersion">
-    <img src="https://img.shields.io/badge/Jcenter-V1.0.0-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
+    <img src="https://img.shields.io/badge/Jcenter-V1.0.1-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
   </a>
   <a href="https://travis-ci.org/Vension/V-MultiStateLayout">
     <img src="https://travis-ci.org/Vension/V-MultiStateLayout.svg?branch=master" alt="Build Status" />

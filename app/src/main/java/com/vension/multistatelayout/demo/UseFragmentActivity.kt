@@ -17,13 +17,14 @@ class UseFragmentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_use_fragment)
-        val transaction = supportFragmentManager.beginTransaction()
 
+        //添加fragment
+        val transaction = supportFragmentManager.beginTransaction()
         fragment?.let {
             transaction.show(it)
         } ?: TestFragment().let {
             fragment = it
-            transaction.add(R.id.layout_fragment, it, "home")
+            transaction.add(R.id.layout_fragment, it, "test")
         }
         transaction.commitAllowingStateLoss()
     }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -185,16 +186,19 @@ class MultiStateLayout : FrameLayout {
             when (targetView) {
                 //如果是Activity，获取到android.R.content
                 is Activity -> {
+                    Log.e("vension--","is Activity")
                     mContext = targetView
                     content = (mContext as Activity).findViewById(android.R.id.content)
                 }
                 //如果是Fragment获取到parent
                 is Fragment -> {
+                    Log.e("vension--","is Fragment")
                     mContext = targetView.activity!!
                     content = (targetView.view)?.parent as ViewGroup
                 }
                 //如果是View，也取到parent
                 is View -> {
+                    Log.e("vension--","is View")
                     mContext = targetView.context
                     try {
                         content = (targetView.parent) as ViewGroup

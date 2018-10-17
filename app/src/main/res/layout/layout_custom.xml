@@ -30,7 +30,7 @@
             android:id="@+id/tv_custom_content"
             android:paddingBottom="3dp"
             android:paddingTop="3dp"
-            android:text="This is CustomLayout"
+            android:text="在fragment中使用"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

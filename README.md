@@ -39,6 +39,11 @@
 ```java
  MultiStateLayout.Builder(this)
             .initPage(this)
+            .setEmpty(layoutId = ,ivEmptyId = ,tvEmptyId = )
+            .setEmptyText(text = )
+            .setEmptyTextColor(color = )
+            .setCustomLayout(layoutId = )
+            .setOnRetryListener(this).build()
             .setOnRetryListener(object : MultiStateLayout.OnRetryClickListener{
                 override fun onRetry() {
                     //TODO 点击重试

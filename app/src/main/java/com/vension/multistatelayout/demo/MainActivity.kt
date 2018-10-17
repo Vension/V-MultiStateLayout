@@ -1,6 +1,7 @@
 package com.vension.multistatelayout.demo
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -14,8 +15,6 @@ import me.vension.commonlistadapter.demo.TestBean
 
 class MainActivity : BaseActivity() {
 
-    private var mAdapter: CommonListAdapterForKotlin<TestBean>? = null
-
     override fun attachLayoutRes(): Int {
         return R.layout.activity_main
     }
@@ -25,7 +24,9 @@ class MainActivity : BaseActivity() {
         mMultiLayoutBuilder.setCustomLayout(layoutInflater.inflate(R.layout.layout_custom,null)
             .apply {
                 findViewById<ImageView>(R.id.iv_custom).setImageResource(R.drawable.img_custom)
-                findViewById<TextView>(R.id.tv_custom_content).text = "This is CustomLayout on MultiStateLayout"
+                findViewById<TextView>(R.id.tv_custom_content).setOnClickListener {
+                    startActivity(Intent(this@MainActivity,UseFragmentActivity::class.java))
+                }
             })
             .build()
         val mList = ArrayList<TestBean>()
@@ -39,21 +40,20 @@ class MainActivity : BaseActivity() {
         }
         val header = layoutInflater.inflate(R.layout.layout_header,null)
         lv_test.addHeaderView(header)
-        mAdapter = object : CommonListAdapterForKotlin<TestBean>(this,mList,R.layout.item_list){
+        lv_test.adapter = object : CommonListAdapterForKotlin<TestBean>(this,R.layout.item_list,mList){
             override fun convert(holder: CommonListViewHolderForKotlin, position: Int, item: TestBean) {
                 holder.setImageResource(R.id.iv_image,item.imageRes)
                 holder.setText(R.id.tv_title,item.title)
                 holder.setText(R.id.tv_desc,item.desc)
             }
         }
-        lv_test.adapter = mAdapter
+        mMultiLayoutBuilder.build().showLoading()
         loadData()//获取数据
     }
 
 
     /**模拟网络获取数据*/
     override fun loadData() {
-        mMultiLayoutBuilder.build().showLoading()
         Handler().postDelayed({
             mMultiLayoutBuilder.build().showContent()
             layout_refresh.isRefreshing = false

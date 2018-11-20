@@ -187,7 +187,7 @@ class MultiStateLayout : FrameLayout {
                 //如果是Activity，获取到android.R.content
                 is Activity -> {
                     Log.e("vension--","is Activity")
-                    mContext = targetView
+                    mContext = targetView as Context
                     content = (mContext as Activity).findViewById(android.R.id.content)
                 }
                 //如果是Fragment获取到parent

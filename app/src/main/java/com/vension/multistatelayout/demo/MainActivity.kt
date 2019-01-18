@@ -47,13 +47,14 @@ class MainActivity : BaseActivity() {
                 holder.setText(R.id.tv_desc,item.desc)
             }
         }
-        mMultiLayoutBuilder.build().showLoading()
+
         loadData()//获取数据
     }
 
 
     /**模拟网络获取数据*/
     override fun loadData() {
+        mMultiLayoutBuilder.build().showLoading()
         Handler().postDelayed({
             mMultiLayoutBuilder.build().showContent()
             layout_refresh.isRefreshing = false
@@ -71,7 +72,7 @@ class MainActivity : BaseActivity() {
             R.id.menu_empty -> mMultiLayoutBuilder.build().showEmpty()
             R.id.menu_loadfail -> mMultiLayoutBuilder.build().showError()
             R.id.menu_content -> mMultiLayoutBuilder.build().showContent()
-            R.id.menu_not_net -> mMultiLayoutBuilder.build().showNotNetWork()
+            R.id.menu_not_net -> mMultiLayoutBuilder.setErrorText("网络连接异常").build().showError()
             R.id.menu_customer -> mMultiLayoutBuilder.build().showCustom()
             R.id.menu_custom_empty -> {
                 mMultiLayoutBuilder

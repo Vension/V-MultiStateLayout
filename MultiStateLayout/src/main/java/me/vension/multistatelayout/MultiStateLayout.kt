@@ -20,6 +20,12 @@ import android.widget.FrameLayout
  * 日  期：2018/10/12 14:19
  * 描  述：多状态Layout --使用Builder建造者模式链式调用
  * 致敬开源.参考自@Link{https://github.com/Hankkin/PageLayoutDemo}
+ * @Use 1.Builder模式使用：MultiStateLayout.Builder(this)
+ *                       .setEmptyImageRes(R.drawable.img_change_empty)
+ *                       .setEmptyText("我是自定义的空文本~")
+ *                       .setEmptyTextColor(R.color.colorPrimaryDark)
+ *                       .build()
+ *                       .showEmpty()
  *
  * ========================================================
  */
@@ -31,19 +37,20 @@ class MultiStateLayout : FrameLayout {
         TYPE_LOADING,     //加载中...
         TYPE_EMPTY,       //空数据状态
         TYPE_CONTENT,     //内容（正常）
-        TYPE_ERROR_LOAD,  //加载出错状态
-        TYPE_ERROR_NET,   //网络连接问题
+        TYPE_ERROR,       //异常状态
         TYPE_CUSTOM,      //自定义
     }
+
 
     private var mLoadingLayout: View? = null  //加载中布局
     private var mEmptyLayout: View? = null    //空布局
     private var mContentLayout: View? = null  //内容布局
     private var mErrorLayout: View? = null    //错误布局
-    private var mNoNetLayout: View? = null    //无网络布局
     private var mCustomLayout: View? = null    //自定义布局
 
     private var mCurrentState = State.TYPE_LOADING //当前状态
+
+
     /*构造函数*/
     constructor(mContext: Context):super(mContext)
     constructor(mContext: Context, attrs: AttributeSet?):super(mContext,attrs)
@@ -63,13 +70,12 @@ class MultiStateLayout : FrameLayout {
      * 切换布局
      * @param mStateType  当前状态类型
      */
-    private fun switchLayout(mStateType: State) {
+    private fun switchLayout(mStateType: State = State.TYPE_LOADING) {
         mCurrentState = mStateType
         mLoadingLayout?.visibility = if (mStateType == State.TYPE_LOADING) View.VISIBLE else View.GONE
         mEmptyLayout?.visibility = if (mStateType == State.TYPE_EMPTY) View.VISIBLE else View.GONE
         mContentLayout?.visibility = if (mStateType == State.TYPE_CONTENT) View.VISIBLE else View.GONE
-        mErrorLayout?.visibility = if (mStateType == State.TYPE_ERROR_LOAD) View.VISIBLE else View.GONE
-        mNoNetLayout?.visibility = if (mStateType == State.TYPE_ERROR_NET) View.VISIBLE else View.GONE
+        mErrorLayout?.visibility = if (mStateType == State.TYPE_ERROR) View.VISIBLE else View.GONE
         mCustomLayout?.visibility = if (mStateType == State.TYPE_CUSTOM) View.VISIBLE else View.GONE
     }
 
@@ -81,6 +87,7 @@ class MultiStateLayout : FrameLayout {
         return mCurrentState
     }
 
+
     /**显示loading布局*/
     fun showLoading() {
         showLayout(State.TYPE_LOADING)
@@ -91,7 +98,7 @@ class MultiStateLayout : FrameLayout {
 
     /**显示加载出错布局*/
     fun showError() {
-        showLayout(State.TYPE_ERROR_LOAD)
+        showLayout(State.TYPE_ERROR)
     }
 
     /**显示空布局*/
@@ -107,16 +114,12 @@ class MultiStateLayout : FrameLayout {
         }
     }
 
-    /**显示网络不可用布局*/
-    fun showNotNetWork(){
-        showLayout(State.TYPE_ERROR_NET)
-    }
-
 
     /**显示自定义布局*/
     fun showCustom(){
         showLayout(State.TYPE_CUSTOM)
     }
+
 
     /**
      * 获取对应状态下的Layout
@@ -130,11 +133,8 @@ class MultiStateLayout : FrameLayout {
         if (mStateType == State.TYPE_EMPTY){
             return mEmptyLayout
         }
-        if (mStateType == State.TYPE_ERROR_NET){
-            return mNoNetLayout
-        }
-        if (mStateType == State.TYPE_ERROR_LOAD){
-            return mErrorLayout
+        if (mStateType == State.TYPE_ERROR){
+            return mContentLayout
         }
         if (mStateType == State.TYPE_CONTENT){
             return mContentLayout
@@ -251,9 +251,6 @@ class MultiStateLayout : FrameLayout {
             if (mMultiStateLayout.mErrorLayout == null) {
                 setDefaultError()
             }
-            if (mMultiStateLayout.mNoNetLayout == null) {
-                setDefaultNoNet()
-            }
         }
 
         //设置默认加载中布局
@@ -279,7 +276,7 @@ class MultiStateLayout : FrameLayout {
 
         //设置默认加载出错布局
         private fun setDefaultError() {
-            mMultiStateLayout.mErrorLayout = mInflater.inflate(R.layout.layout_default_loadfail, mMultiStateLayout, false)
+            mMultiStateLayout.mErrorLayout = mInflater.inflate(R.layout.layout_default_error, mMultiStateLayout, false)
                 .apply {
                     ivPageError = findViewById(R.id.iv_page_error)
                     tvPageError = findViewById(R.id.tv_page_error)
@@ -289,20 +286,6 @@ class MultiStateLayout : FrameLayout {
             mMultiStateLayout.mErrorLayout?.visibility = View.GONE
             mMultiStateLayout.addView(mMultiStateLayout.mErrorLayout)
         }
-
-        //设置默认网络错误布局
-        private fun setDefaultNoNet() {
-            mMultiStateLayout.mNoNetLayout = mInflater.inflate(R.layout.layout_default_not_net, mMultiStateLayout, false)
-                .apply {
-                    ivPageNotNetWork = findViewById(R.id.iv_page_not_network)
-                    tvPageNotNetWork = findViewById(R.id.tv_page_not_network)
-                    tvPageNotNetWorkRetry = findViewById(R.id.tv_page_not_network_retry)
-                    tvPageNotNetWorkRetry?.setOnClickListener { mOnRetryClickListener?.onRetry() }
-                }
-            mMultiStateLayout.mNoNetLayout?.visibility = View.GONE
-            mMultiStateLayout.addView(mMultiStateLayout.mNoNetLayout)
-        }
-
 
 
         /**
@@ -392,38 +375,6 @@ class MultiStateLayout : FrameLayout {
         }
 
 
-        /**
-         * 设置无网络布局
-         * @param layoutId 无网络布局的id
-         * @param ivErrorId 无网络布局中图片的id
-         * @param tvErrorId 无网络布局中加载文本的id
-         * @param viewRetryId 无网络布局中重试按钮的id
-         */
-        fun setNotNetWork(layoutId: Int,ivErrorId : Int,tvErrorId : Int, viewRetryId: Int, onRetryClickListener: OnRetryClickListener): Builder {
-            mInflater.inflate(layoutId, mMultiStateLayout, false).apply {
-                mMultiStateLayout.mNoNetLayout = this
-                mMultiStateLayout.addView(this)
-                if (ivErrorId > 0){
-                    ivPageNotNetWork = findViewById(tvErrorId)
-                }
-                if (tvErrorId > 0){
-                    tvPageNotNetWork = findViewById(tvErrorId)
-                }
-                if (viewRetryId > 0){
-                    tvPageNotNetWorkRetry = findViewById(viewRetryId)
-                }
-                tvPageNotNetWorkRetry?.setOnClickListener { onRetryClickListener.onRetry() }
-            }
-            return this
-        }
-
-        fun setNotNetWork(view: View): Builder {
-            mMultiStateLayout.apply {
-                mNoNetLayout = view
-                addView(view)
-            }
-            return this
-        }
 
         /**
          * 自定义布局

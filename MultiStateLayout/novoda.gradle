@@ -1,0 +1,29 @@
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    userOrg = 'vension'                    //bintray.com用户名
+    groupId = 'com.vension'                //jcenter上的路径
+    artifactId = 'HotLableView'            //项目名称
+    publishVersion = '1.0.0'               //版本号
+    desc = 'This is LableView by vension'
+    website = 'https://github.com/vension/V-HotLableView'
+    issueTracker = "${website}/issues"
+    repository = "${website}.git"
+}
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+tasks.withType(Javadoc) {
+    excludes = ['**/*.kt']
+    options.addBooleanOption('Xdoclint:none', true)
+}
+
+
+/**
+ * 执行上传命令
+ * 1、打开Android Studio底部工具栏的Terminal，输入命令：
+ * windows：gradlew clean build bintrayUpload -PbintrayUser=“输入你的用户名” -PbintrayKey="输入你的key" -PdryRun=false
+ * mac：./gradlew clean build bintrayUpload -PbintrayUser=“输入你的用户名” -PbintrayKey="输入你的key" -PdryRun=false
+ * BUILD SUCCESSFUL说明执行成功。
+ */

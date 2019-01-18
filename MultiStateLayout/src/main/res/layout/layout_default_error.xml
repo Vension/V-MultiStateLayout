@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/img_default_loadfail"/>
+            app:srcCompat="@drawable/img_default_error"/>
 
     <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_page_error"
